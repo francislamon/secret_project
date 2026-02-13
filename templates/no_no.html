@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐱Im begging! Be My Valentine? 🐱</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Comic Neue', cursive;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ffeaa7 0%,#fab1a0 25%,#fd79a8 50%,#a29bfe 75%,#74b9ff 100%);
+    background-size:400% 400%;
+    animation: gradientShift 15s ease infinite;
+    overflow:hidden;
+    position:relative;
+}
+@keyframes gradientShift {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+.cats-background {position:absolute;width:100%;height:100%;overflow:hidden;pointer-events:none;}
+.cat {position:absolute;bottom:-60px;font-size:40px;animation:float-up linear infinite;opacity:0;}
+@keyframes float-up {0%{opacity:0;transform:translateY(0) rotate(0deg);}10%{opacity:1;}90%{opacity:1;}100%{opacity:0;transform:translateY(-120vh) rotate(360deg);}}
+
+.container {text-align:center;padding:60px 50px;max-width:100%;width:100%;}
+.question {font-size:2.5em;font-weight:700;color:#fff;margin:30px 0;text-shadow:3px 3px 0px #ff6b35,5px 5px 20px rgba(0,0,0,0.5);}
+
+.buttons {display:flex;gap:30px;justify-content:center;margin-top:60px;min-height:100px;align-items:center;flex-wrap:wrap;}
+.btn {padding:15px 35px;font-size:1.3em;font-weight:700;border:5px solid #333;border-radius:20px;cursor:pointer;font-family:'Fredoka',sans-serif;box-shadow:8px 8px 0px #333;text-transform:uppercase;letter-spacing:2px;z-index:100;transition:all 0.2s ease;}
+#yesBtn {background:#ffeaa7;color:#333;}
+#noBtn {background:#ff6b9d;color:#fff;}
+
+/* Popup Styles */
+.popup-overlay {
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.5);
+    display:flex;justify-content:center;align-items:center;
+    visibility:hidden; opacity:0;
+    transition:opacity 0.3s ease;
+    z-index:1000;
+}
+.popup-overlay.active {visibility:visible; opacity:1;}
+.popup {
+    background:#fff;padding:40px 30px;border-radius:20px;text-align:center;
+    max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    font-family:'Fredoka',sans-serif;
+    position:relative;
+}
+.popup p {font-size:1.5em;margin-bottom:30px;color:#333;}
+.popup .popup-buttons {display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.popup .btn {box-shadow:5px 5px 0 #333;padding:10px 25px;font-size:1.1em;}
+
+/* Second popup slightly above the first */
+.popup.second {
+    z-index:1100;
+    transform: scale(0.9);
+    transition:transform 0.2s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="cats-background" id="catsContainer"></div>
+
+<div class="container">
+    <div id="questionSection">
+        <p style="font-size: 1.8em; color: #fff; margin: 25px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+            You misclicked twice in a row! You silly...
+        </p>
+        <p style="font-size: 1.8em; color: #fff; margin: 30px 0 60px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+            With no shame at all, I will ask again.
+        </p>
+        <p style="font-size: 2em; color: #fff; margin: 30px 0 60px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 700;">
+            Will you be my Valentine? ❤️
+        </p>
+        <div class="buttons">
+            <button class="btn" id="yesBtn">❯❯❯❯YES!❮❮❮❮ 😻</button>
+            <button class="btn" id="noBtn">Na. 😿</button>
+        </div>
+    </div>
+</div>
+
+<!-- First Popup -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup" id="popupContent">
+        <p id="popupText">Misclick safeguard here. I know computers can be tricky sometimes. You surely meant to click Yes. Are you sure No is your answer?</p>
+        <div class="popup-buttons">
+            <button class="btn" id="popupYes">Yes</button>
+            <button class="btn" id="popupNo">No</button>
+        </div>
+    </div>
+</div>
+
+<!-- Second Popup -->
+<div class="popup-overlay" id="secondPopupOverlay">
+    <div class="popup second" id="secondPopupContent">
+        <p id="secondPopupText">Really?? Maybe we have it backwards. Click Yes if you meant No. </p>
+        <div class="popup-buttons">
+            <button class="btn" id="secondPopupYes">Yes</button>
+            <button class="btn" id="secondPopupNo">No</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Floating cats
+function createCat() {
+    const cat = document.createElement('div');
+    cat.className='cat';
+    const catEmojis=['🐈','please','❤️'];
+    cat.innerHTML=catEmojis[Math.floor(Math.random()*catEmojis.length)];
+    cat.style.left=Math.random()*100+'%';
+    cat.style.animationDuration=(Math.random()*3+4)+'s';
+    cat.style.fontSize=(Math.random()*30+30)+'px';
+    document.getElementById('catsContainer').appendChild(cat);
+    setTimeout(()=>cat.remove(),7000);
+}
+setInterval(createCat,300);
+
+// Main Yes redirects
+document.getElementById('yesBtn').addEventListener('click',()=>{
+    window.location.href='yes2.html';
+});
+
+// No triggers first popup
+const noBtn=document.getElementById('noBtn');
+const popupOverlay=document.getElementById('popupOverlay');
+const popupYes=document.getElementById('popupYes');
+const popupNo=document.getElementById('popupNo');
+
+const secondPopupOverlay=document.getElementById('secondPopupOverlay');
+const secondPopupYes=document.getElementById('secondPopupYes');
+const secondPopupNo=document.getElementById('secondPopupNo');
+
+noBtn.addEventListener('click',()=>{
+    popupOverlay.classList.add('active');
+});
+
+// First popup Yes -> show second popup
+popupYes.addEventListener('click',()=>{
+    secondPopupOverlay.classList.add('active');
+});
+
+// First popup No -> close first popup
+popupNo.addEventListener('click',()=>{
+    popupOverlay.classList.remove('active');
+});
+
+// Second popup Yes -> redirect
+secondPopupYes.addEventListener('click',()=>{
+    window.location.href='no_no_no.html';
+});
+
+// Second popup No -> close second popup only
+secondPopupNo.addEventListener('click',()=>{
+    secondPopupOverlay.classList.remove('active');
+});
+</script>
+
+
+
+</body>
+</html>

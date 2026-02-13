@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱 Will You Be My Valentine? 🐱</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 25%, #fd79a8 50%, #a29bfe 75%, #74b9ff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .cats-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .cat {
+            position: absolute;
+            bottom: -60px; /* start just below the screen */
+            font-size: 40px;
+            animation: float-up linear infinite;
+            opacity: 0;
+        }
+
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120vh) rotate(360deg);
+            }
+        }
+
+
+        .container {
+            text-align: center;
+            padding: 60px 50px;
+            max-width: 100%;
+            width: 100%;
+            position: relative;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 4em;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0px #ff6b35, 6px 6px 20px rgba(0, 0, 0, 0.5);
+            animation: wiggle 2s ease-in-out infinite;
+            background: linear-gradient(135deg, #ff6b35, #fd79a8, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotate(-3deg);
+            }
+            50% {
+                transform: rotate(3deg);
+            }
+        }
+
+        .emoji {
+            font-size: 6em;
+            margin: 20px 0;
+            display: inline-block;
+            animation: catBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes catBounce {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .question {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #fff;
+            margin: 30px 0;
+            text-shadow: 3px 3px 0px #ff6b35, 5px 5px 20px rgba(0, 0, 0, 0.5);
+            animation: rainbow-text 3s linear infinite;
+        }
+
+        @keyframes rainbow-text {
+            0% { color: #fff; text-shadow: 3px 3px 0px #ff6b35, 5px 5px 20px rgba(0, 0, 0, 0.5); }
+            25% { color: #fff; text-shadow: 3px 3px 0px #fd79a8, 5px 5px 20px rgba(0, 0, 0, 0.5); }
+            50% { color: #fff; text-shadow: 3px 3px 0px #a29bfe, 5px 5px 20px rgba(0, 0, 0, 0.5); }
+            75% { color: #fff; text-shadow: 3px 3px 0px #74b9ff, 5px 5px 20px rgba(0, 0, 0, 0.5); }
+            100% { color: #fff; text-shadow: 3px 3px 0px #ff6b35, 5px 5px 20px rgba(0, 0, 0, 0.5); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 60px;
+            position: relative;
+            min-height: 100px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border: 5px solid #333;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 8px 8px 0px #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 100;
+        }
+
+        #yesBtn {
+            background: #ffeaa7;
+            color: #333;
+            position: fixed;
+            transition: all 0.15s ease;
+        }
+
+        #noBtn {
+            background: #ff6b9d;
+            color: white;
+            animation: glow 2s ease-in-out infinite;
+            position: relative;
+            
+        }
+        
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 6px 6px 0px #333, 0 0 20px rgba(255, 107, 157, 0.5);
+            }
+            50% {
+                box-shadow: 6px 6px 0px #333, 0 0 40px rgba(255, 107, 157, 0.8);
+            }
+        }
+
+        #noBtn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 8px 8px 0px #333;
+        }
+
+        .no-message {
+            display: none;
+            animation: celebration 0.6s ease-out;
+        }
+
+        @keyframes celebration {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(20deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .celebration-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 4em;
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: 4px 4px 0px #ff6b35, 6px 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .love-gif {
+            width: 350px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 5px solid #ff6b9d;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .attempt-counter {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #fff;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .paw-prints {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+        }
+
+        .side-cat {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 8em;
+            z-index: 1000;
+            transition: right 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        .side-cat.show {
+            right: 20px;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            background: white;
+            border: 4px solid #333;
+            border-radius: 20px;
+            padding: 15px 25px;
+            font-size: 0.25em;
+            font-weight: 700;
+            color: #333;
+            white-space: nowrap;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 20px;
+            box-shadow: 6px 6px 0px #333;
+            font-family: 'Fredoka', sans-serif;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .side-cat.show .speech-bubble {
+            opacity: 1;
+            visibility: visible;
+            animation: bubble-bounce 0.5s ease-out;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            right: -28px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 24px solid #333;
+            border-top: 19px solid transparent;
+            border-bottom: 19px solid transparent;
+            z-index: -1;
+        }
+
+        @keyframes bubble-bounce {
+            0% {
+                transform: translateY(-50%) scale(0);
+            }
+            50% {
+                transform: translateY(-50%) scale(1.1);
+            }
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        .angry-cat {
+            position: fixed;
+            bottom: -500px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20em;
+            z-index: 1000;
+            filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.8));
+            pointer-events: none;
+            transition: bottom 0.4s ease-out;
+        }
+
+        .angry-cat.show {
+            bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cats-background" id="catsContainer"></div>
+    <div class="angry-cat" id="angryCat">😾</div>
+    <div class="side-cat" id="sideCat">
+        <div class="speech-bubble">What are you waiting for?</div>
+        😼
+    </div>
+
+    <div class="container">
+        <div id="questionSection">
+            <h1>Will you be my Valentine?</h1>
+            <div class="emoji">😻</div>
+            <p class="emoji">💌</p>
+            <p style="font-size: 1.4em; color: #fff; margin: 15px 0; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-weight: 700;">
+                Please click Yes! 💝
+            </p>
+            <p class="attempt-counter" id="attemptCounter"></p>
+            
+            <div class="buttons">
+                <button class="btn" id="yesBtn">YES! 😻</button>
+                <button class="btn" id="noBtn">No 😿</button>
+            </div>
+        </div>
+
+        <div id="noMessage" class="no-message">
+            <div class="celebration-text">The Cats Are Sad! 😿</div>
+            <div class="emoji">🐱💔</div>
+                        <p class="question">But seriously... reconsider? 🥺</p>
+            <p style="font-size: 1.5em; color: #fff; margin-top: 20px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                The YES button is still trying to escape, but you can catch it! 💪
+            </p>
+            <div style="margin-top: 30px;">
+                <button class="btn" id="retryBtn" style="background: #55efc4; color: #333; position: relative;">
+                    Try Again! 🐾
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionSection = document.getElementById('questionSection');
+        const noMessage = document.getElementById('noMessage');
+        const attemptCounter = document.getElementById('attemptCounter');
+        const container = document.querySelector('.container');
+        const angryCat = document.getElementById('angryCat');
+        const sideCat = document.getElementById('sideCat');
+
+        let attempts = 0;
+        let gameActive = true;
+
+
+        // Create floating cats
+        function createCat() {
+            const cat = document.createElement('div');
+            cat.className = 'cat';
+            const catEmojis = ['🐈', '🐾', '❤️', '🐈', '🐾', '❤️','click no'];
+            cat.innerHTML = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+            cat.style.left = Math.random() * 100 + '%';
+            cat.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            cat.style.fontSize = (Math.random() * 30 + 30) + 'px';
+            document.getElementById('catsContainer').appendChild(cat);
+            
+            setTimeout(() => cat.remove(), 7000);
+        }
+
+        setInterval(createCat, 300);
+
+        // Create confetti with cat emojis
+        function createConfetti() {
+            const items = ['🐱', '😻', '💖', '💕', '🐾', '😺', '😸'];
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = items[Math.floor(Math.random() * items.length)];
+                    confetti.style.position = 'absolute';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = Math.random() * 20 + 20 + 'px';
+                    confetti.style.animation = 'confetti-fall 3s linear forwards';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.pointerEvents = 'none';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3500);
+                }, i * 30);
+            }
+        }
+
+        // Handle YES button fleeing
+        yesBtn.addEventListener('mouseenter', moveYesButton);
+        yesBtn.addEventListener('click', handleYesClick);
+
+        // Initialize YES button position
+        function initYesButton() {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            yesBtn.style.left = (viewportWidth / 2 - 150) + 'px';
+            yesBtn.style.top = (viewportHeight / 2 + 100) + 'px';
+        }
+        initYesButton();
+
+        function moveYesButton(e) {
+            if (!gameActive) return;
+            
+            e.preventDefault();
+            attempts++;
+            
+            // Get button dimensions
+            const btnRect = yesBtn.getBoundingClientRect();
+            const btnWidth = btnRect.width;
+            const currentTop = btnRect.top;
+            
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            
+            // Calculate safe boundaries (with padding from edges)
+            const padding = 50;
+            const maxX = viewportWidth - btnWidth - padding;
+            
+            // Generate random X position (horizontal only)
+            let randomX;
+            let attempts_pos = 0;
+            let tooClose = true;
+            
+            // Keep trying until we find a position that's not too close to NO button horizontally
+            while (tooClose && attempts_pos < 10) {
+                randomX = Math.random() * (maxX - padding) + padding;
+                
+                // Check horizontal distance from NO button
+                const noBtnRect = noBtn.getBoundingClientRect();
+                const noBtnCenterX = noBtnRect.left + noBtnRect.width / 2;
+                const yesBtnCenterX = randomX + btnWidth / 2;
+                
+                const horizontalDistance = Math.abs(noBtnCenterX - yesBtnCenterX);
+                
+                // If far enough from NO button horizontally, position is good
+                if (horizontalDistance > 250) {
+                    tooClose = false;
+                }
+                attempts_pos++;
+            }
+            
+            // Move horizontally only, keep same vertical position
+            yesBtn.style.left = randomX + 'px';
+            yesBtn.style.top = currentTop + 'px';
+            
+        
+        }
+
+        function handleYesClick(e) {
+            if (!gameActive) return;
+            window.location.href = 'yes.html';  // ← Change this
+        }
+
+        noBtn.addEventListener('click', () => {
+            window.location.href = 'no.html';  // ← Change this
+        });
+        // Show angry cat instantly when hovering NO button
+        noBtn.addEventListener('mouseenter', () => {
+            if (gameActive) {
+                angryCat.classList.add('show');
+            }
+        });
+
+        // Hide angry cat when leaving NO button
+        noBtn.addEventListener('mouseleave', () => {
+            angryCat.classList.remove('show');
+        });
+
+        // Retry button
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'retryBtn') {
+                location.reload();
+            }
+        });
+
+        const SIDE_CAT_DELAY = 12000; // 12 seconds
+        const SIDE_CAT_VISIBLE = 3000; // 3 seconds
+       
+
+
+        function loopSideCat() {
+            if (!gameActive) return;
+
+            setTimeout(() => {
+                if (!gameActive) return;
+
+                // Show side cat
+                sideCat.classList.add('show');
+
+                setTimeout(() => {
+                    // Hide side cat
+                    sideCat.classList.remove('show');
+
+                    // Repeat loop
+                    loopSideCat();
+                }, SIDE_CAT_VISIBLE);
+
+            }, SIDE_CAT_DELAY);
+        }
+
+        // Start looping
+        loopSideCat();
+
+    </script>
+</body>
+</html>

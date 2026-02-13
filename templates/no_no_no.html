@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱Be My Valentine. 🐱</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 25%, #fd79a8 50%, #a29bfe 75%, #74b9ff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .cats-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .cat {
+            position: absolute;
+            bottom: -60px;
+            font-size: 40px;
+            animation: float-up linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-120vh) rotate(360deg); }
+        }
+
+        .container {
+            text-align: center;
+            padding: 60px 50px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .question {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #fff;
+            margin: 30px 0;
+            text-shadow: 3px 3px 0px #ff6b35, 5px 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 60px;
+            min-height: 100px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border: 5px solid #333;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 8px 8px 0px #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 100;
+            background: #ffeaa7;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        #noBtn {
+            background: #ff6b9d;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cats-background" id="catsContainer"></div>
+
+    <div class="container">
+        <div id="questionSection">
+            <p style="font-size: 1.8em; color: #fff; margin: 25px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+                This is a safe space. 🙏
+            </p>
+            <p style="font-size: 1.8em; color: #fff; margin: 25px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+                Nobody will judge you.
+            </p>
+            <p style="font-size: 1.8em; color: #fff; margin: 25px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+                 It's not complicated — just click the Yes button...
+            </p>
+            <p style="font-size: 1.8em; color: #fff; margin: 25px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 600; font-style: italic;">
+                For real, it's time...
+            </p>
+            <p style="font-size: 2em; color: #fff; margin: 30px 0 60px 0; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); font-weight: 700;">
+                Haaaaa... Can't you just be my Valentine already??
+            </p>
+            
+            <div class="buttons">
+                <button class="btn" id="yesBtn">YEEES! 😻</button>
+                <button class="btn" id="noBtn">Nooo 😿</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Floating cats effect
+        function createCat() {
+            const cat = document.createElement('div');
+            cat.className = 'cat';
+            const catEmojis = ['pain', '🐾', '❤️']; // ✅ single quotes with escape
+            cat.innerHTML = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+            cat.style.left = Math.random() * 100 + '%';
+            cat.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            cat.style.fontSize = (Math.random() * 30 + 30) + 'px';
+            document.getElementById('catsContainer').appendChild(cat);
+            setTimeout(() => cat.remove(), 7000);
+        }
+        setInterval(createCat, 300);
+
+        // Button click redirects
+        document.getElementById('yesBtn').addEventListener('click', () => {
+            window.location.href = 'yes2.html';
+        });
+
+        const noBtn = document.getElementById('noBtn');
+
+        noBtn.addEventListener('click', () => {
+            const span = document.createElement('span');
+            span.textContent = 'Please';
+
+            // Start position: center of the NO button
+            const rect = noBtn.getBoundingClientRect();
+            span.style.position = 'absolute';
+            span.style.left = rect.left + rect.width / 2 + 'px';
+            span.style.top = rect.top + rect.height / 2 + 'px';
+
+            // Random size and rotation
+            const size = Math.random() * 20 + 20; // 20px to 40px
+            span.style.fontSize = size + 'px';
+            span.style.fontWeight = '700';
+            span.style.color = 'rgba(0,0,0,0.8)';
+            span.style.pointerEvents = 'none';
+            const rotation = Math.random() * 60 - 30; // -30deg to +30deg
+            span.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1)`;
+            span.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+            document.body.appendChild(span);
+
+            // Fly in a random direction
+            const moveX = Math.random() * 200 - 100; // -100px to +100px
+            const moveY = -(Math.random() * 150 + 50); // 50px to 200px upwards
+            const scale = Math.random() * 1 + 1.5; // scale 1.5 to 2.5
+
+            requestAnimationFrame(() => {
+                span.style.transform = `translate(calc(-50% + ${moveX}px), calc(${moveY}px - 50%)) rotate(${rotation}deg) scale(${scale})`;
+                span.style.opacity = '0';
+            });
+
+            // Remove after animation
+            setTimeout(() => span.remove(), 800);
+        });
+
+
+
+    </script>
+</body>
+</html>
