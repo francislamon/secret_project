@@ -519,11 +519,11 @@
 
         function handleYesClick(e) {
             if (!gameActive) return;
-            window.location.href = 'yes.html';  // ← Change this
+            window.location.href = '/yes';  // ← Change this
         }
 
         noBtn.addEventListener('click', () => {
-            window.location.href = 'no.html';  // ← Change this
+            window.location.href = '/no';  // ← Change this
         });
         // Show angry cat instantly when hovering NO button
         noBtn.addEventListener('mouseenter', () => {
